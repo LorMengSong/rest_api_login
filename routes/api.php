@@ -27,11 +27,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     Route::delete('/delete-product/{id}',[ProductController::class,'DeleteProduct']);
 //     Route::put("/product-update/{id}",[ProductController::class,'UpdateProduct']);
 // });
+Route::post('user/register',[AuthController::class,'register']);
 Route::post('user/login',[AuthController::class,'login']);
-Route::group(["middleware"=>"auth:sanctum","prefix"=>"product"],function(){
+Route::group(["middleware"=>"auth:api","prefix"=>"product"],function(){
     Route::get('/all-product',[ProductController::class,'getProduct']);
     Route::post('/add-product',[ProductController::class,'addProduct']);
     Route::get('/all-product/{id}',[ProductController::class,'getproductID']);
     Route::delete('/delete-product/{id}',[ProductController::class,'DeleteProduct']);
     Route::put("/product-update/{id}",[ProductController::class,'UpdateProduct']);
+    Route::post("/user/logout",[AuthController::class,'logout']);
 });
