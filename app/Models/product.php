@@ -9,10 +9,14 @@ class product extends Model
 {
     use HasFactory;
     protected $table = "products";
+    protected $guarded = ['id'];
     protected $fillable = [
         "id",
-        "name",
+        "category_id",
         "qty",
         "price"
     ];
+    public function getCategory(){
+        return $this->belongsTo(subcategory::class,'sub_id');
+    }
 }

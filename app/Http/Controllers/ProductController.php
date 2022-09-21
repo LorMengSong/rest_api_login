@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\category;
 use App\Models\product;
+use App\Models\subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -10,7 +12,7 @@ class ProductController extends Controller
 {
     public function addProduct(Request $request){
         $validator = Validator::make($request->all(),[
-            "name"=>"required",
+            "category_id"=>"required",
             "qty"=>"required",
             "price"=>"required"
         ]);
@@ -36,6 +38,11 @@ class ProductController extends Controller
     public function getproductID($id){
         $product = product::find($id);
         if($product){
+            // one to one with table products
+            // $category = category::find($product->category_id);
+            // $product->category = $category;
+            $sub_category = $product->getCategory;
+            // $product->sub = $sub_category;
             return response()->json([
                 "message"=>"Show View   ".$id,
                 "data"=>$product 
@@ -46,6 +53,22 @@ class ProductController extends Controller
             ]);
         }
         
+    }
+    public function getCategory($id){
+        $category = subcategory::find($id);
+        $all_poduct = $category->getSubcategory;
+        if($category){
+            // one to one with table products
+           
+            return response()->json([
+                "message"=>"Show View   ".$id,
+                "data"=>$category 
+            ]);
+        }else{
+            return response()->json([
+                "message"=>"Product is Not Found...!   ".$id,
+            ]);
+        }
     }
     public function DeleteProduct($id){
         $product = product::find($id);
